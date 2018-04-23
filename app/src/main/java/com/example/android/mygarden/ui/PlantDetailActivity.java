@@ -60,10 +60,18 @@ public class PlantDetailActivity extends AppCompatActivity
         //check if already dead then can't water
         Uri SINGLE_PLANT_URI = ContentUris.withAppendedId(
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_PLANTS).build(), mPlantId);
-        Cursor cursor = getContentResolver().query(SINGLE_PLANT_URI, null, null, null, null);
+        Cursor cursor = getContentResolver().query(
+                SINGLE_PLANT_URI,
+                null,
+                null,
+                null,
+                null);
+
         if (cursor == null || cursor.getCount() < 1) return; //can't find this plant!
+
         cursor.moveToFirst();
-        long lastWatered = cursor.getLong(cursor.getColumnIndex(PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME));
+        long lastWatered = cursor.getLong(cursor.getColumnIndex(
+                PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME));
         long timeNow = System.currentTimeMillis();
         if ((timeNow - lastWatered) > PlantUtils.MAX_AGE_WITHOUT_WATER)
             return; // plant already dead
@@ -96,7 +104,8 @@ public class PlantDetailActivity extends AppCompatActivity
         long wateredAt = cursor.getLong(waterTimeIndex);
         long timeNow = System.currentTimeMillis();
 
-        int plantImgRes = PlantUtils.getPlantImageRes(this, timeNow - createdAt, timeNow - wateredAt, plantType);
+        int plantImgRes = PlantUtils.getPlantImageRes(this, timeNow - createdAt,
+                timeNow - wateredAt, plantType);
 
         ((ImageView) findViewById(R.id.plant_detail_image)).setImageResource(plantImgRes);
         ((TextView) findViewById(R.id.plant_detail_name)).setText(String.valueOf(mPlantId));
