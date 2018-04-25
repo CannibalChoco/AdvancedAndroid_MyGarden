@@ -4,16 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.android.mygarden.provider.PlantContract;
+import com.example.android.mygarden.ui.PlantDetailActivity;
 import com.example.android.mygarden.utils.PlantUtils;
 
+import static com.example.android.mygarden.provider.PlantContract.BASE_CONTENT_URI;
+import static com.example.android.mygarden.provider.PlantContract.PATH_PLANTS;
 
-public class GridWidgetService extends RemoteViewsService{
 
+public class GridWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new GridRemoteViewsFactory(this.getApplicationContext());
@@ -51,7 +55,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDestroy() {
-
+        cursor.close();
     }
 
     @Override
@@ -86,6 +90,12 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         remoteViews.setImageViewResource(R.id.widget_plant_image, imgResource);
         remoteViews.setTextViewText(R.id.widget_plant_name, String.valueOf(plantId));
         remoteViews.setViewVisibility(R.id.widget_water_button, View.GONE);
+
+        Bundle extras = new Bundle();
+        extras.putLong(PlantDetailActivity.EXTRA_PLANT_ID, plantId);
+        Intent fillInIntent = new Intent();
+        fillInIntent.putExtras(extras);
+        remoteViews.setOnClickFillInIntent(R.id.widget_plant_image, fillInIntent);
 
         return remoteViews;
     }
