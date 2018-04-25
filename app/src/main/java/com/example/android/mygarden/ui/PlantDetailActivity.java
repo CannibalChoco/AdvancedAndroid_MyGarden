@@ -124,10 +124,6 @@ public class PlantDetailActivity extends AppCompatActivity
     }
 
     public void onCutButtonClick(View view) {
-        Uri SINGLE_PLANT_URI = ContentUris.withAppendedId(
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_PLANTS).build(), mPlantId);
-        getContentResolver().delete(SINGLE_PLANT_URI, null, null);
-        PlantWateringService.startActionUpdatePlantWidgets(this);
-        finish();
+        PlantWateringService.startActionWaterPlants(this, mPlantId);
     }
 }
