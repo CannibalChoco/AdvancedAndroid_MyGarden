@@ -25,6 +25,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,6 +50,8 @@ public class PlantDetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_detail);
         mPlantId = getIntent().getLongExtra(EXTRA_PLANT_ID, PlantContract.INVALID_PLANT_ID);
+        Log.d("WATER", "PlantDetailActivity plantId - " + String.valueOf(mPlantId));
+
         // This activity displays single plant information that is loaded using a cursor loader
         getSupportLoaderManager().initLoader(SINGLE_LOADER_ID, null, this);
     }

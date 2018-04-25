@@ -71,8 +71,9 @@ public class PlantWidgetProvider extends AppWidgetProvider {
         }
         else {
             views.setViewVisibility(R.id.widget_water_button, View.INVISIBLE);
-            views.setOnClickPendingIntent(R.id.widget_water_button, wateringPendingIntent);
         }
+
+        views.setOnClickPendingIntent(R.id.widget_water_button, wateringPendingIntent);
 
         views.setTextViewText(R.id.widget_plant_id, String.valueOf(plantId));
 

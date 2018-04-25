@@ -112,6 +112,8 @@ public class PlantWateringService extends IntentService {
                 contentValues,
                 PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME + ">?",
                 new String[]{String.valueOf(timeNow - PlantUtils.MAX_AGE_WITHOUT_WATER)});
+        // Always update widgets after watering plants
+        startActionUpdatePlantWidgets(this);
     }
 
 
@@ -150,7 +152,8 @@ public class PlantWateringService extends IntentService {
             cursor.close();
 
             long timeSinceWatered = timeNow - wateredAt;
-            if (timeSinceWatered > PlantUtils.MIN_AGE_BETWEEN_WATER) showWaterButton = true;
+            showWaterButton = (timeSinceWatered > PlantUtils.MIN_AGE_BETWEEN_WATER &&
+                    timeSinceWatered < PlantUtils.MAX_AGE_WITHOUT_WATER);
 
             imgRes = PlantUtils.getPlantImageRes(this, timeNow - createdAt,
                     timeSinceWatered, plantType);
