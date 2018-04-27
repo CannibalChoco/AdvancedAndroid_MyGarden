@@ -107,16 +107,16 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return 1; // Treat all items in the GridView the same
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 }
